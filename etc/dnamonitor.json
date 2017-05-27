@@ -1,0 +1,7 @@
+{
+  "Port":"8080",
+  "StatInterval":3,
+  "ReadTimeout":30,
+  "WriteTimeout":30,
+  "MaxHeaderBytes":104857600
+}
