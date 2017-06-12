@@ -1,11 +1,14 @@
 package monitor
 
 import (
+	"DNAMonitorAgent/conf"
 	log4 "github.com/alecthomas/log4go"
 	"github.com/shirou/gopsutil/cpu"
 	"github.com/shirou/gopsutil/disk"
+	"github.com/shirou/gopsutil/host"
 	"github.com/shirou/gopsutil/mem"
 	"github.com/shirou/gopsutil/net"
+	"github.com/shirou/gopsutil/process"
 	"sync"
 	"time"
 )
@@ -37,21 +40,37 @@ type NetStat struct {
 	SendRate  float64
 }
 
+type HostStat struct {
+	Hostname string
+	OS       string
+	Platform string
+}
+
+type ProcStat struct {
+	ProcName   string
+	CreateTime int64
+	RunTime    int64
+}
+
 type MachineStatMgr struct {
 	cpu      *CpuStat
 	mem      *MemStat
 	dis      *DisStat
 	net      map[string]*NetStat
+	host     *HostStat
+	proc     *ProcStat
 	interval int
 	exitCh   chan interface{}
 	lock     sync.RWMutex
 }
 
 type MachineStat struct {
-	Cpu *CpuStat
-	Mem *MemStat
-	Dis *DisStat
-	Net []*NetStat
+	Cpu  *CpuStat
+	Mem  *MemStat
+	Dis  *DisStat
+	Net  []*NetStat
+	Host *HostStat
+	Proc *ProcStat
 }
 
 var MStat *MachineStatMgr
@@ -91,6 +110,87 @@ func (this *MachineStatMgr) UpdMachineStat() {
 	this.UpdDisStat()
 	this.UpdMemStat()
 	this.UpdNetStat()
+	this.UpdHostStat()
+	this.UpdProcStat()
+}
+
+func (this *MachineStatMgr) UpdProcStat() {
+	pids, err := process.Pids()
+	if err != nil {
+		log4.Error("UpdProcStat process.Pids error:%s", err)
+		return
+	}
+
+	createTimeInit := int64(1<<62)
+	olderCreateTime := int64(1<<62)
+	for _, pid := range pids {
+		proc, err := process.NewProcess(pid)
+		if err != nil {
+			log4.Error("UpdProcStat process.NewProcess Pid:%v error:%s", pid, err)
+			continue
+		}
+		name, err := proc.Name()
+		if err != nil {
+			log4.Error("UpdProcStat proc.Name Pid:%v error:%s", pid, err)
+			continue
+		}
+		if name != conf.GCfg.ProcName {
+			continue
+		}
+		createTime, err := proc.CreateTime()
+		if err != nil {
+			log4.Error("UpdProcStat ProcName:%v proc.CreateTime error:%s", name, err)
+			continue
+		}
+		if createTime < olderCreateTime {
+			olderCreateTime = createTime
+		}
+	}
+
+	if olderCreateTime == createTimeInit {
+		olderCreateTime = 0
+	}
+	olderCreateTime = olderCreateTime / 1000
+	runTime := int64(0)
+	if olderCreateTime == 0 {
+		runTime = 0
+	}else{
+		runTime = time.Now().Unix() - olderCreateTime
+	}
+	this.lock.Lock()
+	defer this.lock.Unlock()
+	this.proc = &ProcStat{
+		ProcName:   conf.GCfg.ProcName,
+		CreateTime: olderCreateTime,
+		RunTime:    runTime,
+	}
+}
+
+func (this *MachineStatMgr) GetProcStat() *ProcStat {
+	this.lock.RLock()
+	defer this.lock.RUnlock()
+	return this.proc
+}
+
+func (this *MachineStatMgr) UpdHostStat() {
+	stat, err := host.Info()
+	if err != nil {
+		log4.Error("UpdHostStat host.Info error:%s", err)
+		return
+	}
+	this.lock.Lock()
+	defer this.lock.Unlock()
+	this.host = &HostStat{
+		Hostname: stat.Hostname,
+		OS:       stat.OS,
+		Platform: stat.Platform,
+	}
+}
+
+func (this *MachineStatMgr) GetHostStat() *HostStat {
+	this.lock.RLock()
+	defer this.lock.RUnlock()
+	return this.host
 }
 
 func (this *MachineStatMgr) UpdCpuStat() {
@@ -196,9 +296,11 @@ func (this *MachineStatMgr) GetNetStat() []*NetStat {
 
 func (this *MachineStatMgr) GetMachineStat() *MachineStat {
 	return &MachineStat{
-		Cpu: this.GetCpuStat(),
-		Mem: this.GetMemStat(),
-		Dis: this.GetDisStat(),
-		Net: this.GetNetStat(),
+		Cpu:  this.GetCpuStat(),
+		Mem:  this.GetMemStat(),
+		Dis:  this.GetDisStat(),
+		Net:  this.GetNetStat(),
+		Host: this.GetHostStat(),
+		Proc: this.GetProcStat(),
 	}
 }

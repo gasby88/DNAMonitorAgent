@@ -11,7 +11,9 @@ import (
 var GCfg = NewConfig()
 
 type Config struct {
+	ProcName       string
 	Port           string
+	RequestPath    string
 	StatInterval   int
 	ReadTimeout    int
 	WriteTimeout   int
@@ -28,7 +30,9 @@ func (this *Config) Init(file string) {
 		return
 	}
 	log4.Error("Config Init error:%s", err)
+	this.ProcName = "node"
 	this.Port = "8080"
+	this.RequestPath = "/dna/monitor"
 	this.StatInterval = 3
 	this.ReadTimeout = 30
 	this.WriteTimeout = 30
