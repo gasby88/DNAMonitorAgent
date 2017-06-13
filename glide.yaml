@@ -10,3 +10,7 @@ import:
   - mem
   - net
   - process
+- package: golang.org/x/sys
+  subpackages:
+  - windows
+  - unix
