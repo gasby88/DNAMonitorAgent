@@ -15,9 +15,6 @@ type Config struct {
 	Port           string
 	RequestPath    string
 	StatInterval   int
-	ReadTimeout    int
-	WriteTimeout   int
-	MaxHeaderBytes int
 }
 
 func NewConfig() *Config {
@@ -34,9 +31,6 @@ func (this *Config) Init(file string) {
 	this.Port = "8080"
 	this.RequestPath = "/dna/monitor"
 	this.StatInterval = 3
-	this.ReadTimeout = 30
-	this.WriteTimeout = 30
-	this.MaxHeaderBytes = 104857600
 
 	log4.Info("Config:%+v", this)
 }

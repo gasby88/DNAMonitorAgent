@@ -27,7 +27,7 @@ func main() {
 	monitor.MStat.Start()
 	defer monitor.MStat.Close()
 
-	server := httpServer.NewHttpServer(conf.GCfg.Port, conf.GCfg.RequestPath, conf.GCfg.ReadTimeout, conf.GCfg.WriteTimeout, conf.GCfg.MaxHeaderBytes)
+	server := httpServer.NewHttpServer(conf.GCfg.Port, conf.GCfg.RequestPath)
 	server.Start()
 
 	waitToExit()
