@@ -1,0 +1,20 @@
+[2017/05/27 14:31:00 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:71) MachineStat Start.
+[2017/05/31 14:43:41 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:71) MachineStat Start.
+[2017/05/31 14:49:32 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:71) MachineStat Start.
+[2017/05/31 14:49:58 CST] [EROR] (DNAMonitorAgent/httpServer.(*HttpServer).OnHandle:60) HttpServer NewDNAMonitorRequest from:{
+	"id":"1",
+	"method":"net",
+	"params":{"machine"
+	}
+}
+
+ error:invalid character '}' after object key
+[2017/06/01 23:35:03 CST] [DEBG] (DNAMonitorAgent/httpServer.(*NotFound).ServeHTTP:108) Cannot handle:/
+
+[2017/06/04 11:57:10 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:90) MachineStat Start.
+[2017/06/04 11:59:08 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:90) MachineStat Start.
+[2017/06/04 12:04:48 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:90) MachineStat Start.
+[2017/06/04 12:07:32 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:90) MachineStat Start.
+[2017/06/04 12:07:44 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:90) MachineStat Start.
+[2017/06/04 12:09:50 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:90) MachineStat Start.
+[2017/06/05 10:57:25 CST] [INFO] (DNAMonitorAgent/monitor.(*MachineStatMgr).Start:90) MachineStat Start.

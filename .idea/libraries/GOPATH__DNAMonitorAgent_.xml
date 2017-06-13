@@ -1,0 +1,71 @@
+<component name="libraryTable">
+  <library name="GOPATH &lt;DNAMonitorAgent&gt;">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../DNA-newest" />
+      <root url="file://$PROJECT_DIR$/../DNA_IPFS" />
+      <root url="file://$PROJECT_DIR$/../DNArevc" />
+      <root url="file://$PROJECT_DIR$/../DNA－master" />
+      <root url="file://$PROJECT_DIR$/../DNA-master" />
+      <root url="file://$PROJECT_DIR$/../DNA" />
+      <root url="file://$PROJECT_DIR$/../test" />
+      <root url="file://$PROJECT_DIR$/../DNA-jj" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../ngrok-master" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+      <root url="file://$PROJECT_DIR$/../gw.com.cn" />
+      <root url="file://$PROJECT_DIR$/../ngrok" />
+      <root url="file://$PROJECT_DIR$/../beego-demo" />
+      <root url="file://$PROJECT_DIR$/../DNA-jj-redis" />
+      <root url="file://$PROJECT_DIR$/../bing" />
+      <root url="file://$PROJECT_DIR$/../go-ipfs" />
+      <root url="file://$PROJECT_DIR$/../onchain" />
+      <root url="file://$PROJECT_DIR$/../DNA-test" />
+      <root url="file://$PROJECT_DIR$/../gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../DNAredis" />
+      <root url="file://$PROJECT_DIR$/../ipfs-client" />
+      <root url="file://$PROJECT_DIR$/../GoOnchain" />
+      <root url="file://$PROJECT_DIR$/../ipfs-server" />
+      <root url="file://$PROJECT_DIR$/../.idea" />
+      <root url="file://$PROJECT_DIR$/../beegotutorial" />
+      <root url="file://$PROJECT_DIR$/../DNAbp" />
+      <root url="file://$PROJECT_DIR$/../leb.io" />
+      <root url="file://$PROJECT_DIR$/../DNA_TEST" />
+      <root url="file://$PROJECT_DIR$/../gx" />
+    </CLASSES>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../DNA-newest" />
+      <root url="file://$PROJECT_DIR$/../DNA_IPFS" />
+      <root url="file://$PROJECT_DIR$/../DNArevc" />
+      <root url="file://$PROJECT_DIR$/../DNA－master" />
+      <root url="file://$PROJECT_DIR$/../DNA-master" />
+      <root url="file://$PROJECT_DIR$/../DNA" />
+      <root url="file://$PROJECT_DIR$/../test" />
+      <root url="file://$PROJECT_DIR$/../DNA-jj" />
+      <root url="file://$PROJECT_DIR$/../github.com" />
+      <root url="file://$PROJECT_DIR$/../ngrok-master" />
+      <root url="file://$PROJECT_DIR$/../golang.org" />
+      <root url="file://$PROJECT_DIR$/../gw.com.cn" />
+      <root url="file://$PROJECT_DIR$/../ngrok" />
+      <root url="file://$PROJECT_DIR$/../beego-demo" />
+      <root url="file://$PROJECT_DIR$/../DNA-jj-redis" />
+      <root url="file://$PROJECT_DIR$/../bing" />
+      <root url="file://$PROJECT_DIR$/../go-ipfs" />
+      <root url="file://$PROJECT_DIR$/../onchain" />
+      <root url="file://$PROJECT_DIR$/../DNA-test" />
+      <root url="file://$PROJECT_DIR$/../gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../DNAredis" />
+      <root url="file://$PROJECT_DIR$/../ipfs-client" />
+      <root url="file://$PROJECT_DIR$/../GoOnchain" />
+      <root url="file://$PROJECT_DIR$/../ipfs-server" />
+      <root url="file://$PROJECT_DIR$/../.idea" />
+      <root url="file://$PROJECT_DIR$/../beegotutorial" />
+      <root url="file://$PROJECT_DIR$/../DNAbp" />
+      <root url="file://$PROJECT_DIR$/../leb.io" />
+      <root url="file://$PROJECT_DIR$/../DNA_TEST" />
+      <root url="file://$PROJECT_DIR$/../gx" />
+    </SOURCES>
+    <excluded>
+      <root url="file://$PROJECT_DIR$" />
+    </excluded>
+  </library>
+</component>
