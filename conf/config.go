@@ -3,7 +3,7 @@ package conf
 import (
 	"encoding/json"
 	"fmt"
-	log4 "github.com/ccpaging/log4go"
+	log4 "github.com/alecthomas/log4go"
 	"io/ioutil"
 	"os"
 )
