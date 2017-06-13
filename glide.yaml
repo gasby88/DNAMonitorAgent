@@ -1,0 +1,12 @@
+package: DNAMonitorAgent
+import:
+- package: github.com/alecthomas/log4go
+- package: github.com/julienschmidt/httprouter
+- package: github.com/shirou/gopsutil
+  subpackages:
+  - cpu
+  - disk
+  - host
+  - mem
+  - net
+  - process
