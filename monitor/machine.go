@@ -117,7 +117,7 @@ func (this *MachineStatMgr) UpdMachineStat() {
 func (this *MachineStatMgr) UpdProcStat() {
 	pids, err := process.Pids()
 	if err != nil {
-		log4.Error("UpdProcStat process.Pids error:%s", err)
+		log4.Info("UpdProcStat process.Pids error:%s", err)
 		return
 	}
 
