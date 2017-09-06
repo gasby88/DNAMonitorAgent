@@ -1,8 +1,9 @@
 package monitor
 
 import "DNAMonitorAgent/common"
+import "DNAMonitorAgent/conf"
 
-func init()  {
+func init() {
 	MonitorMgr.RegHandler(&CpuStatHandler{})
 	MonitorMgr.RegHandler(&MemStatHandler{})
 	MonitorMgr.RegHandler(&DisStatHandler{})
@@ -52,24 +53,29 @@ func (this *NetStatHandler) Handle(req *common.DNAMonitorRequest) (interface{}, 
 	return MStat.GetNetStat(), common.Err_OK
 }
 
-type HostStatHandler struct {}
+type HostStatHandler struct{}
 
 func (this *HostStatHandler) GetName() string {
 	return "host"
 }
 
-func (this *HostStatHandler) Handle(req *common.DNAMonitorRequest)(interface{}, int){
+func (this *HostStatHandler) Handle(req *common.DNAMonitorRequest) (interface{}, int) {
 	return MStat.GetHostStat(), common.Err_OK
 }
 
-type ProcStatHandler struct {}
+type ProcStatHandler struct{}
 
-func (this *ProcStatHandler) GetName()string {
+func (this *ProcStatHandler) GetName() string {
 	return "proc"
 }
 
-func (this *ProcStatHandler) Handle(req *common.DNAMonitorRequest)(interface{}, int){
-	return MStat.GetProcStat(), common.Err_OK
+func (this *ProcStatHandler) Handle(req *common.DNAMonitorRequest) (interface{}, int) {
+	procName := req.Params["name"]
+	name, ok := procName.(string)
+	if !ok {
+		name = conf.GCfg.ProcName
+	}
+	return MStat.GetProcStat(name), common.Err_OK
 }
 
 type MachineStatHandler struct{}

@@ -58,7 +58,7 @@ type MachineStatMgr struct {
 	dis      *DisStat
 	net      map[string]*NetStat
 	host     *HostStat
-	proc     *ProcStat
+	proc     map[string]*ProcStat
 	interval int
 	exitCh   chan interface{}
 	lock     sync.RWMutex
@@ -116,13 +116,18 @@ func (this *MachineStatMgr) UpdMachineStat() {
 
 func (this *MachineStatMgr) UpdProcStat() {
 	pids, err := process.Pids()
+	procMap := make(map[string]*ProcStat, len(pids))
+	defer func() {
+		this.lock.Lock()
+		this.proc = procMap
+		this.lock.Unlock()
+	}()
+
 	if err != nil {
 		log4.Info("UpdProcStat process.Pids error:%s", err)
 		return
 	}
 
-	createTimeInit := int64(1<<62)
-	olderCreateTime := int64(1<<62)
 	for _, pid := range pids {
 		proc, err := process.NewProcess(pid)
 		if err != nil {
@@ -131,45 +136,48 @@ func (this *MachineStatMgr) UpdProcStat() {
 		}
 		name, err := proc.Name()
 		if err != nil {
-			log4.Error("UpdProcStat proc.Name Pid:%v error:%s", pid, err)
+			log4.Info("UpdProcStat proc.Name Pid:%v error:%s", pid, err)
 			continue
 		}
-		if name != conf.GCfg.ProcName {
+		if name == "" {
 			continue
 		}
 		createTime, err := proc.CreateTime()
 		if err != nil {
-			log4.Error("UpdProcStat ProcName:%v proc.CreateTime error:%s", name, err)
+			log4.Debug("UpdProcStat ProcName:%v proc.CreateTime error:%s", name, err)
 			continue
 		}
-		if createTime < olderCreateTime {
-			olderCreateTime = createTime
-		}
-	}
 
-	if olderCreateTime == createTimeInit {
-		olderCreateTime = 0
-	}
-	olderCreateTime = olderCreateTime / 1000
-	runTime := int64(0)
-	if olderCreateTime == 0 {
-		runTime = 0
-	}else{
-		runTime = time.Now().Unix() - olderCreateTime
-	}
-	this.lock.Lock()
-	defer this.lock.Unlock()
-	this.proc = &ProcStat{
-		ProcName:   conf.GCfg.ProcName,
-		CreateTime: olderCreateTime,
-		RunTime:    runTime,
+		createTime = createTime / 1000
+		runTime := time.Now().Unix() - createTime
+		p, ok := procMap[name]
+		if !ok {
+			procMap[name] = &ProcStat{
+				ProcName:   name,
+				CreateTime: createTime,
+				RunTime:    runTime,
+			}
+			continue
+		}
+		if p.CreateTime < createTime {
+			p.CreateTime = createTime
+			p.RunTime = runTime
+		}
 	}
 }
 
-func (this *MachineStatMgr) GetProcStat() *ProcStat {
+func (this *MachineStatMgr) GetProcStat(procName string) *ProcStat {
 	this.lock.RLock()
 	defer this.lock.RUnlock()
-	return this.proc
+	p, ok := this.proc[procName]
+	if ok {
+		return p
+	}
+	return &ProcStat{
+		ProcName:   procName,
+		CreateTime: 0,
+		RunTime:    0,
+	}
 }
 
 func (this *MachineStatMgr) UpdHostStat() {
@@ -301,6 +309,6 @@ func (this *MachineStatMgr) GetMachineStat() *MachineStat {
 		Dis:  this.GetDisStat(),
 		Net:  this.GetNetStat(),
 		Host: this.GetHostStat(),
-		Proc: this.GetProcStat(),
+		Proc: this.GetProcStat(conf.GCfg.ProcName),
 	}
 }
