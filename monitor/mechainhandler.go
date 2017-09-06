@@ -1,10 +1,6 @@
 package monitor
 
 import "DNAMonitorAgent/common"
-import (
-	"DNAMonitorAgent/conf"
-	"strings"
-)
 
 func init() {
 	MonitorMgr.RegHandler(&CpuStatHandler{})
@@ -73,21 +69,7 @@ func (this *ProcStatHandler) GetName() string {
 }
 
 func (this *ProcStatHandler) Handle(req *common.DNAMonitorRequest) (interface{}, int) {
-	procName := req.Params["name"]
-	name, ok := procName.(string)
-	if !ok {
-		name = conf.GCfg.ProcName
-	}
-	names := strings.Split(name, ",")
-	procs := make([]*ProcStat, 0, len(names))
-	for _, n := range names {
-		n = strings.Trim(n, " ")
-		if n == "" {
-			continue
-		}
-		procs = append(procs, MStat.GetProcStat(n))
-	}
-	return procs, common.Err_OK
+	return MStat.GetProcStat(), common.Err_OK
 }
 
 type MachineStatHandler struct{}
