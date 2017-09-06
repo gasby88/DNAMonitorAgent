@@ -1,6 +1,6 @@
 {
-  "ProcName":"node",
-  "Port":"8080",
+  "ProcName":"DNA",
+  "Port":"8085",
   "RequestPath":"/dna/monitor",
   "StatInterval":3
 }
