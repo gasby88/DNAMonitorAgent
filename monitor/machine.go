@@ -122,7 +122,19 @@ func (this *MachineStatMgr) UpdProcStat() {
 	defer func() {
 		this.lock.Lock()
 		procList := make([]*ProcStat, 0, len(procMap))
-		for _, p := range procMap {
+		for _, n := range procNames{
+			n = strings.TrimSpace(n)
+			if n == "" {
+				continue
+			}
+			p, ok := procMap[n]
+			if !ok {
+				p = &ProcStat{
+					ProcName:n,
+					CreateTime:0,
+					RunTime:0,
+				}
+			}
 			procList = append(procList, p)
 		}
 		this.proc = procList
